@@ -37,6 +37,7 @@ contract WorkAgreement is Disputable {
     function releasePayment() external {
         require(!beingDisputed, "WorkAgreement: being disputed");
         require(msg.sender == contractor, "WorkAgreement: not contractor");
+        require(block.timestamp >= releaseAt, "WorkAgreement: not yet unlocked");
         selfdestruct(payable(contractor));
     }
 
