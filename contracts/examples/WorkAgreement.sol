@@ -41,6 +41,7 @@ contract WorkAgreement is Disputable {
     }
 
     function dispute(bytes32 _salt, bytes calldata _agreementMetadata) external {
+        require(!beingDisputed, "WorkAgreement: already disputed");
         require(msg.sender == employer, "WorkAgreement: not employer");
         require(
             agreementCommitment == keccak256(abi.encode(_salt, _agreementMetadata)),
@@ -54,6 +55,7 @@ contract WorkAgreement is Disputable {
     }
 
     function settleDispute() external {
+        require(beingDisputed, "WorkAgreement: Not being disputed");
         (, uint256 ruling) = court.rule(disputeId);
         selfdestruct(payable(ruling == RULING_AGAINST ? employer : contractor));
     }
