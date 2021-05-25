@@ -1,0 +1,30 @@
+{
+  "name": "celeste-helpers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1Hive/celeste-helpers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1Hive/celeste-helpers/issues"
+  },
+  "homepage": "https://github.com/1Hive/celeste-helpers#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-plugin-prettier": "^3.4.0"
+  }
+}
