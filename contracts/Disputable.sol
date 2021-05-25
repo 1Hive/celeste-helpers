@@ -2,47 +2,31 @@
 pragma solidity ^0.8.4;
 
 import "./interfaces/ICourt.sol";
+import "./interfaces/ICourtManifest.sol";
 
 abstract contract Disputable {
+    uint256 internal constant RULING_REFUSED = 2;
+    uint256 internal constant RULING_AGAINST = 3;
+    uint256 internal constant RULING_FOR = 4;
+
     ICourt immutable public court;
-    mapping(address => mapping(address => bool)) internal isRepresentativeOf;
-    mapping(uint256 => address) internal defendantOf;
-    mapping(uint256 => address) internal plaintiffOf;
+    ICourtManifest immutable public courtManifest;
 
-    event RepresentativeStatusSet(
-        address indexed representative,
-        address indexed account,
-        bool isRepresentative
-    );
-
-    constructor(ICourt _court) {
+    constructor(ICourt _court, ICourtManifest _courtManifest) {
         court = _court;
-    }
-
-    function setRepresentative(address _representative, bool _isRepresentative)
-        external
-    {
-        require(
-            _representatives[_representative][msg.sender] != _isRepresentative,
-            "Disputable: Repr. already set"
-        );
-        _representatives[_representative][msg.sender] = _isRepresentative;
-        emit RepresentativeStatusSet(_representative, msg.sender, _isRepresentative);
+        courtManifest = _courtManifest;
     }
 
     function submitEvidenceFor(
         uint256 _disputeId,
-        address _party,
         bytes calldata _evidence
     )
-        external
+        external virtual
     {
-        address defendant = defendantOf[_disputeId];
-        address plaintiff = plaintiffOf[_disputeId];
-        bool isDefendant = msg.sender == defendant || isRepresentativeOf[msg.sender][defendant];
-        bool isPlaintiff = msg.sender == plaintiff || isRepresentativeOf[msg.sender][plaintiff];
-        require(isDefendant || isPlaintiff, "Disputable: Not part of dispute");
-        court.submitEvidence(_disputeId, isDefendant ? defendant : plaintiff, _evidence);
+        (bool canSubmitEvidence, address submittingFor) =
+            courtManifest.canSubmitEvidenceFor(msg.sender, _disputeId);
+        require(canSubmitEvidence, "Disputable: not part of dispute");
+        court.submitEvidence(_disputeId, submittingFor, _evidence);
     }
 
     function _createDisputeAgainst(
@@ -50,10 +34,10 @@ abstract contract Disputable {
         address _plaintiff,
         bytes memory _metadata
     )
-        internal
+        internal virtual returns (uint256)
     {
         uint256 disputeId = court.createDispute(2, _metadata);
-        defendantOf[disputeId] = _defendant;
-        plaintiffOf[disputeId] = _plaintiff;
+        courtManifest.setPartiesOf(disputeId, _defendant, _plaintiff);
+        return disputeId;
     }
 }

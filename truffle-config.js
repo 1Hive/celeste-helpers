@@ -89,8 +89,7 @@ module.exports = {
         optimizer: {
           enabled: true,
           runs: 10000
-        },
-        evmVersion: 'byzantium'
+        }
       }
     }
   },

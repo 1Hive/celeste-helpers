@@ -21,4 +21,5 @@ interface ICourt {
         IERC20 feeToken,
         uint256 feeAmount
     );
+    function getDisputeManager() external view returns (address);
 }
