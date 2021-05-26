@@ -1,31 +1,24 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.8.4;
 
-import "./interfaces/ICourtManifest.sol";
-import "./interfaces/IDisputeManager.sol";
+import "./ICourtManifest.sol";
 
-contract CourtManifest is ICourtManifest {
-    IDisputeManager public immutable disputeManager;
+abstract contract CourtManifestCore is ICourtManifest {
     mapping(address => mapping(address => bool)) public override isRepOf;
     mapping(uint256 => address) public override defendantOf;
-    mapping(uint256 => address) public override plaintiffOf;
-
-    constructor(IDisputeManager _disputeManager) {
-        disputeManager = _disputeManager;
-    }
+    mapping(uint256 => address) public override challengerOf;
 
     function setPartiesOf(
         uint256 _disputeId,
         address _defendant,
-        address _plaintiff
+        address _challenger
     )
         external override
     {
-        (address subject,,,,,) = disputeManager.getDispute(_disputeId);
-        require(msg.sender == subject, "CourtManifest: not subject");
+        require(msg.sender == _getSubjectOf(_disputeId), "CourtManifest: not subject");
         defendantOf[_disputeId] = _defendant;
-        defendantOf[_disputeId] = _plaintiff;
-        emit PartiesSet(_disputeId, _defendant, _plaintiff);
+        challengerOf[_disputeId] = _challenger;
+        emit PartiesSet(_disputeId, _defendant, _challenger);
     }
 
     function setRepStatus(address _rep, bool _isActive) external override {
@@ -41,10 +34,13 @@ contract CourtManifest is ICourtManifest {
         if (defendant == _submitter || isRepOf[defendant][_submitter]) {
             return (true, defendant);
         }
-        address plaintiff = plaintiffOf[_disputeId];
-        if (plaintiff == _submitter || isRepOf[plaintiff][_submitter]) {
-            return (true, plaintiff);
+        address challenger = challengerOf[_disputeId];
+        if (challenger == _submitter || isRepOf[challenger][_submitter]) {
+            return (true, challenger);
         }
         return (false, address(0));
     }
+
+    function _getSubjectOf(uint256 _disputeId)
+        internal view virtual returns (address subject);
 }

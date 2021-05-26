@@ -4,9 +4,8 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "../interfaces/ICourt.sol";
-import "../interfaces/ICourtManifest.sol";
+import "../manifest/ICourtManifest.sol";
 import "../Disputable.sol";
-
 
 contract WorkAgreement is Disputable {
     using SafeERC20 for IERC20;
@@ -58,6 +57,6 @@ contract WorkAgreement is Disputable {
     function settleDispute() external {
         require(beingDisputed, "WorkAgreement: Not being disputed");
         (, uint256 ruling) = court.rule(disputeId);
-        selfdestruct(payable(ruling == RULING_AGAINST ? employer : contractor));
+        selfdestruct(payable(ruling == RULING_AGAINST_ACTION ? employer : contractor));
     }
 }

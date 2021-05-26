@@ -2,12 +2,12 @@
 pragma solidity ^0.8.4;
 
 import "./interfaces/ICourt.sol";
-import "./interfaces/ICourtManifest.sol";
+import "./manifest/ICourtManifest.sol";
 
 abstract contract Disputable {
     uint256 internal constant RULING_REFUSED = 2;
-    uint256 internal constant RULING_AGAINST = 3;
-    uint256 internal constant RULING_FOR = 4;
+    uint256 internal constant RULING_AGAINST_ACTION = 3;
+    uint256 internal constant RULING_FOR_ACTION = 4;
 
     ICourt immutable public court;
     ICourtManifest immutable public courtManifest;

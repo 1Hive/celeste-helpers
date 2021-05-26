@@ -5,7 +5,7 @@ interface ICourtManifest {
     event PartiesSet(
         uint256 indexed disputeId,
         address indexed defendant,
-        address indexed plaintiff
+        address indexed challenger
     );
     event RepStateChanged(
         address indexed account,
@@ -16,7 +16,7 @@ interface ICourtManifest {
     function setPartiesOf(
         uint256 _disputeId,
         address _defendant,
-        address _plaintiff
+        address _challenger
     ) external;
     function setRepStatus(
         address _rep,
@@ -24,7 +24,7 @@ interface ICourtManifest {
     ) external;
     function isRepOf(address _account, address _rep) external view returns (bool isRep);
     function defendantOf(uint256 _disputeId) external view returns (address defendant);
-    function plaintiffOf(uint256 _disputeId) external view returns (address plaintiff);
+    function challengerOf(uint256 _disputeId) external view returns (address challenger);
     function canSubmitEvidenceFor(address _submitter, uint256 _disputeId)
         external view returns (bool canSubmit, address submittingFor);
 }

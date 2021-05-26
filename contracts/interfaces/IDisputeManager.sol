@@ -2,8 +2,9 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./IDisputeManagerCore.sol";
 
-interface IDisputeManager {
+interface IDisputeManager is IDisputeManagerCore {
     enum DisputeState {
         PreDraft,
         Adjudicating,
@@ -74,4 +75,14 @@ interface IDisputeManager {
             uint64 weight,
             bool rewarded
         );
+
+
+    event DisputeStateChanged(uint256 indexed disputeId, DisputeState indexed state);
+    event JurorDrafted(uint256 indexed disputeId, uint256 indexed roundId, address indexed juror);
+    event RulingAppealed(uint256 indexed disputeId, uint256 indexed roundId, uint8 ruling);
+    event RulingAppealConfirmed(uint256 indexed disputeId, uint256 indexed roundId, uint64 indexed draftTermId, uint256 jurorsNumber);
+    event PenaltiesSettled(uint256 indexed disputeId, uint256 indexed roundId, uint256 collectedTokens);
+    event RewardSettled(uint256 indexed disputeId, uint256 indexed roundId, address juror, uint256 tokens, uint256 fees);
+    event AppealDepositSettled(uint256 indexed disputeId, uint256 indexed roundId);
+    event MaxJurorsPerDraftBatchChanged(uint64 previousMaxJurorsPerDraftBatch, uint64 currentMaxJurorsPerDraftBatch);
 }
