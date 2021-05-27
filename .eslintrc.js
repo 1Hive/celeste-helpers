@@ -5,7 +5,6 @@ module.exports = {
     node: true
   },
   globals: {
-    e\
     describe: 'readonly',
     it: 'readonly',
     beforeEach: 'readonly',

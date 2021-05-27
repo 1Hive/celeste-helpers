@@ -34,8 +34,8 @@ contract WorkAgreement is Disputable {
     }
 
     function releasePayment() external {
-        require(!beingDisputed, "WorkAgreement: being disputed");
         require(msg.sender == contractor, "WorkAgreement: not contractor");
+        require(!beingDisputed, "WorkAgreement: being disputed");
         require(block.timestamp >= releaseAt, "WorkAgreement: not yet unlocked");
         selfdestruct(payable(contractor));
     }
@@ -43,20 +43,26 @@ contract WorkAgreement is Disputable {
     function dispute(bytes32 _salt, bytes calldata _agreementMetadata) external {
         require(!beingDisputed, "WorkAgreement: already disputed");
         require(msg.sender == employer, "WorkAgreement: not employer");
+        require(block.timestamp < releaseAt, "WorkAgreement: already unlocked");
         require(
             agreementCommitment == keccak256(abi.encode(_salt, _agreementMetadata)),
             "WorkAgreement: invalid agreement"
         );
         beingDisputed = true;
-        (, IERC20 feeToken, uint256 feeAmount) = arbitrator.getDisputeFees();
+        (address recipient, IERC20 feeToken, uint256 feeAmount) = arbitrator.getDisputeFees();
         feeToken.safeTransferFrom(msg.sender, address(this), feeAmount);
-        feeToken.safeApprove(arbitrator.getDisputeManager(), feeAmount);
+        feeToken.safeApprove(recipient, feeAmount);
         disputeId = _createDisputeAgainst(contractor, employer, _agreementMetadata);
     }
 
     function settleDispute() external {
         require(beingDisputed, "WorkAgreement: Not being disputed");
         (, uint256 ruling) = arbitrator.rule(disputeId);
+        /*
+           benefit of the doubt is with the contractor, so if the ruling is
+            refused by the court the contract releases the full payment to the
+            contractor
+        */
         selfdestruct(payable(ruling == RULING_AGAINST_ACTION ? employer : contractor));
     }
 }

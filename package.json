@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/1Hive/celeste-helpers#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.1.0"
+    "@openzeppelin/contracts": "^4.1.0",
+    "bn.js": "^5.2.0"
   },
   "devDependencies": {
     "@openzeppelin/test-environment": "^0.1.9",

@@ -99,7 +99,7 @@ contract MockArbitrator is IMockArbitrator, Ownable {
             uint256 feeAmount
         )
     {
-        recipient = address(0);
+        recipient = address(this);
         feeToken_ = feeToken;
         feeAmount = FEE_AMOUNT;
     }
