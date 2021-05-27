@@ -5,9 +5,9 @@ import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./IMockCourt.sol";
+import "./IMockArbitrator.sol";
 
-contract MockCourt is IMockCourt, Ownable {
+contract MockArbitrator is IMockArbitrator, Ownable {
     using SafeCast for uint256;
     using SafeERC20 for IERC20;
 
@@ -82,7 +82,7 @@ contract MockCourt is IMockCourt, Ownable {
     function setRuling(uint256 _disputeId, uint256 _ruling)
         external override disputeExists(_disputeId) onlyOwner
     {
-        require(2 <= _ruling && _ruling <= 4, "MockCourt: invalid ruling");
+        require(2 <= _ruling && _ruling <= 4, "MockArbitrator: invalid ruling");
         disputes[_disputeId].ruling = _ruling + 3;
     }
 

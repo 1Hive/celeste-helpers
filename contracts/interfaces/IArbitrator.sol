@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-interface ICourt {
+interface IArbitrator {
     function createDispute(uint256 _possibleRulings, bytes calldata _metadata)
         external returns (uint256);
     function submitEvidence(

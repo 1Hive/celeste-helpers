@@ -3,8 +3,8 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "../interfaces/ICourt.sol";
-import "../manifest/ICourtManifest.sol";
+import "../interfaces/IArbitrator.sol";
+import "../manifest/IArbitratorManifest.sol";
 import "../Disputable.sol";
 
 contract WorkAgreement is Disputable {
@@ -19,13 +19,13 @@ contract WorkAgreement is Disputable {
     uint256 public disputeId;
 
     constructor(
-        ICourt _court,
-        ICourtManifest _courtManifest,
+        IArbitrator _arbitrator,
+        IArbitratorManifest _arbitratorManifest,
         bytes32 _agreementCommitment,
         uint256 _releaseAt,
         address _contractor
     )
-        Disputable(_court, _courtManifest) payable
+        Disputable(_arbitrator, _arbitratorManifest) payable
     {
         agreementCommitment = _agreementCommitment;
         releaseAt = _releaseAt;
@@ -48,15 +48,15 @@ contract WorkAgreement is Disputable {
             "WorkAgreement: invalid agreement"
         );
         beingDisputed = true;
-        (, IERC20 feeToken, uint256 feeAmount) = court.getDisputeFees();
+        (, IERC20 feeToken, uint256 feeAmount) = arbitrator.getDisputeFees();
         feeToken.safeTransferFrom(msg.sender, address(this), feeAmount);
-        feeToken.safeApprove(court.getDisputeManager(), feeAmount);
+        feeToken.safeApprove(arbitrator.getDisputeManager(), feeAmount);
         disputeId = _createDisputeAgainst(contractor, employer, _agreementMetadata);
     }
 
     function settleDispute() external {
         require(beingDisputed, "WorkAgreement: Not being disputed");
-        (, uint256 ruling) = court.rule(disputeId);
+        (, uint256 ruling) = arbitrator.rule(disputeId);
         selfdestruct(payable(ruling == RULING_AGAINST_ACTION ? employer : contractor));
     }
 }

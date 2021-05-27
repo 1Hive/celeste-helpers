@@ -2,9 +2,9 @@
 pragma solidity ^0.8.4;
 
 import "../interfaces/IDisputeManager.sol";
-import "./CourtManifestCore.sol";
+import "./ArbitratorManifestCore.sol";
 
-contract CourtManifest is CourtManifestCore {
+contract ArbitratorManifest is ArbitratorManifestCore {
     IDisputeManager public immutable disputeManager;
 
     constructor(IDisputeManager _disputeManager) {

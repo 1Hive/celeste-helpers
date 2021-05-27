@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.8.4;
 
-import "./ICourtManifest.sol";
+import "./IArbitratorManifest.sol";
 
-abstract contract CourtManifestCore is ICourtManifest {
+abstract contract ArbitratorManifestCore is IArbitratorManifest {
     mapping(address => mapping(address => bool)) public override isRepOf;
     mapping(uint256 => address) public override defendantOf;
     mapping(uint256 => address) public override challengerOf;
@@ -15,14 +15,14 @@ abstract contract CourtManifestCore is ICourtManifest {
     )
         external override
     {
-        require(msg.sender == _getSubjectOf(_disputeId), "CourtManifest: not subject");
+        require(msg.sender == _getSubjectOf(_disputeId), "ArbitratorManifest: not subject");
         defendantOf[_disputeId] = _defendant;
         challengerOf[_disputeId] = _challenger;
         emit PartiesSet(_disputeId, _defendant, _challenger);
     }
 
     function setRepStatus(address _rep, bool _isActive) external override {
-        require(isRepOf[msg.sender][_rep] != _isActive, "CourtManifest: already set");
+        require(isRepOf[msg.sender][_rep] != _isActive, "ArbitratorManifest: already set");
         isRepOf[msg.sender][_rep] = _isActive;
         emit RepStateChanged(msg.sender, _rep, _isActive);
     }
