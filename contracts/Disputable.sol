@@ -31,13 +31,13 @@ abstract contract Disputable {
 
     function _createDisputeAgainst(
         address _defendant,
-        address _plaintiff,
+        address _challenger,
         bytes memory _metadata
     )
         internal virtual returns (uint256)
     {
         uint256 disputeId = arbitrator.createDispute(2, _metadata);
-        arbitratorManifest.setPartiesOf(disputeId, _defendant, _plaintiff);
+        arbitratorManifest.setPartiesOf(disputeId, _defendant, _challenger);
         return disputeId;
     }
 }
