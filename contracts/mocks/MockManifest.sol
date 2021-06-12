@@ -7,8 +7,8 @@ import "./IMockArbitrator.sol";
 contract MockManifest is ArbitratorManifestCore {
     IMockArbitrator internal immutable mockArbitrator;
 
-    constructor(IMockArbitrator _mockArbitrator) {
-        mockArbitrator = _mockArbitrator;
+    constructor(address _mockArbitrator) {
+        mockArbitrator = IMockArbitrator(_mockArbitrator);
     }
 
     function _getSubjectOf(uint256 _disputeId)

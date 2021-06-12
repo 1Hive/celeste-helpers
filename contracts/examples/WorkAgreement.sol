@@ -1,15 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "../interfaces/IArbitrator.sol";
-import "../manifest/IArbitratorManifest.sol";
 import "../Disputable.sol";
 
 contract WorkAgreement is Disputable {
-    using SafeERC20 for IERC20;
-
     bytes32 public immutable agreementCommitment;
     uint256 public immutable releaseAt;
     address public immutable employer;
@@ -19,8 +13,8 @@ contract WorkAgreement is Disputable {
     uint256 public disputeId;
 
     constructor(
-        IArbitrator _arbitrator,
-        IArbitratorManifest _arbitratorManifest,
+        address _arbitrator,
+        address _arbitratorManifest,
         bytes32 _agreementCommitment,
         uint256 _releaseAt,
         address _contractor
@@ -49,15 +43,13 @@ contract WorkAgreement is Disputable {
             "WorkAgreement: invalid agreement"
         );
         beingDisputed = true;
-        (address recipient, IERC20 feeToken, uint256 feeAmount) = arbitrator.getDisputeFees();
-        feeToken.safeTransferFrom(msg.sender, address(this), feeAmount);
-        feeToken.safeApprove(recipient, feeAmount);
+        _prepareAndPullDisputeFeeFrom(msg.sender);
         disputeId = _createDisputeAgainst(contractor, employer, _agreementMetadata);
     }
 
     function settleDispute() external {
         require(beingDisputed, "WorkAgreement: Not being disputed");
-        (, uint256 ruling) = arbitrator.rule(disputeId);
+        uint256 ruling = _getRulingOf(disputeId);
         /*
            benefit of the doubt is with the contractor, so if the ruling is
             refused by the court the contract releases the full payment to the

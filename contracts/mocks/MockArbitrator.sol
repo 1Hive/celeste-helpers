@@ -21,8 +21,8 @@ contract MockArbitrator is IMockArbitrator, Ownable {
     IERC20 internal immutable feeToken;
     Dispute[] internal disputes;
 
-    constructor(IERC20 _feeToken) Ownable() {
-        feeToken = _feeToken;
+    constructor(address _feeToken) Ownable() {
+        feeToken = IERC20(_feeToken);
     }
 
     modifier onlySubjectOf(uint256 _disputeId) {
