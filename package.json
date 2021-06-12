@@ -1,11 +1,12 @@
 {
   "name": "celeste-helpers",
-  "version": "1.0.0",
-  "description": "",
-  "main": "truffle-config.js",
-  "directories": {
-    "test": "test"
-  },
+  "description": "1Hive Celeste helper contracts and utilties to facilitate the development of dApps integrating with Celeste",
+  "version": "0.1.0",
+  "main": "/helpers",
+  "files": [
+    "/helpers/**",
+    "/contracts/**"
+  ],
   "scripts": {
     "test": "npm run compile && npm run direct-test",
     "direct-test": "mocha --exit --recursive --timeout 20000",
@@ -15,13 +16,19 @@
     "type": "git",
     "url": "git+https://github.com/1Hive/celeste-helpers.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "solidity",
+    "1hive",
+    "celeste",
+    "oracles",
+    "subjective oracles"
+  ],
+  "author": "1Hive celeste commons",
+  "license": "GPL-3.0-only",
   "bugs": {
     "url": "https://github.com/1Hive/celeste-helpers/issues"
   },
-  "homepage": "https://github.com/1Hive/celeste-helpers#readme",
+  "homepage": "https://github.com/1Hive/celeste-helpers#README.md",
   "dependencies": {
     "@openzeppelin/contracts": "^4.1.0",
     "bn.js": "^5.2.0"
