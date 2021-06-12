@@ -8,7 +8,8 @@ module.exports = {
     describe: 'readonly',
     it: 'readonly',
     beforeEach: 'readonly',
-    before: 'readonly'
+    before: 'readonly',
+    artifacts: 'readonly'
   },
   extends: 'eslint:recommended',
   parserOptions: {

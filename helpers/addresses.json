@@ -1,9 +1,9 @@
 {
   "xdai": {
-    "juror-registry": "0x8C9968a2b16bc1cD0eaD74F5eeF25E899e795501",
+    "jurorRegistry": "0x8C9968a2b16bc1cD0eaD74F5eeF25E899e795501",
     "court": "0x44E4fCFed14E1285c9e0F6eae77D5fDd0F196f85",
     "agreement": "0x59A15718992A42082aB2306bc6Cbd662958a178c",
-    "dispute-manager": "0xec7904e20b69f60966d6c6b9dc534355614dd922",
-    "court-manifest": "0x061e03F6cA3476c4eF5A308bf6d75C9e1eD907e9"
+    "disputeManager": "0xec7904e20b69f60966d6c6b9dc534355614dd922",
+    "manifest": "0x96342Dbd2FD3e3cDA124eA13372B59134b42BBe2"
   }
 }

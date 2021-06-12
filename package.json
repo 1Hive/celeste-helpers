@@ -29,7 +29,9 @@
   "devDependencies": {
     "@openzeppelin/test-environment": "^0.1.9",
     "@openzeppelin/test-helpers": "github:MrClottom/openzeppelin-test-helpers",
+    "@truffle/hdwallet-provider": "^1.4.0",
     "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
     "eslint": "^7.27.0",
     "eslint-plugin-prettier": "^3.4.0",
     "mocha": "^8.4.0",

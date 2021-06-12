@@ -18,7 +18,8 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider')
+require('dotenv').config()
 // const infuraKey = "fj4jll3k.....";
 //
 // const fs = require('fs');
@@ -72,6 +73,12 @@ module.exports = {
     // network_id: 2111,   // This network is yours, in the cloud.
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }
+    xdai: {
+      provider: () =>
+        new HDWalletProvider(process.env.HOT_WALLET_MNEMONIC, 'wss://rpc.xdaichain.com/wss'),
+      network_id: 100,
+      gasPrice: 1000000000
+    }
   },
 
   // Set default mocha options here, use special reporters etc.
