@@ -38,7 +38,7 @@ abstract contract Disputable {
     {
         address recipient;
         (recipient, feeToken, feeAmount) = arbitrator.getDisputeFees();
-        feeToken.safeApprove(recipient, feeAmount);
+        feeToken.safeIncreaseAllowance(recipient, feeAmount);
     }
 
     function _prepareAndPullDisputeFeeFrom(address _feePayer) internal {
