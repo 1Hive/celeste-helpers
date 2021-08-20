@@ -34,7 +34,7 @@ abstract contract Disputable {
     }
 
     function _prepareDisputeFee()
-        internal returns(IERC20 feeToken, uint256 feeAmount)
+        internal returns (IERC20 feeToken, uint256 feeAmount)
     {
         address recipient;
         (recipient, feeToken, feeAmount) = arbitrator.getDisputeFees();
@@ -46,7 +46,7 @@ abstract contract Disputable {
         feeToken.safeTransferFrom(_feePayer, address(this), feeAmount);
     }
 
-    function _getRulingOf(uint256 _disputeId) internal returns(uint256) {
+    function _getRulingOf(uint256 _disputeId) internal returns (uint256) {
         (address subject, uint256 ruling) = arbitrator.rule(_disputeId);
         require(subject == address(this), "Disputable: not dispute subject");
         return ruling;
