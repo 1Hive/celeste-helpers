@@ -5,7 +5,8 @@
   "main": "helpers/index.js",
   "files": [
     "helpers/**",
-    "contracts/**"
+    "contracts/**",
+    "build/**"
   ],
   "scripts": {
     "test": "npm run compile && npm run direct-test",
