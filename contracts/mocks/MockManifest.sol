@@ -5,15 +5,15 @@ import "../manifest/ArbitratorManifestCore.sol";
 import "./IMockArbitrator.sol";
 
 contract MockManifest is ArbitratorManifestCore {
-    IMockArbitrator internal immutable mockArbitrator;
+    IMockArbitrator public immutable disputeManager;
 
     constructor(address _mockArbitrator) {
-        mockArbitrator = IMockArbitrator(_mockArbitrator);
+        disputeManager = IMockArbitrator(_mockArbitrator);
     }
 
     function _getSubjectOf(uint256 _disputeId)
         internal view override returns (address subject)
     {
-        subject = mockArbitrator.getSubjectOf(_disputeId);
+        subject = disputeManager.getSubjectOf(_disputeId);
     }
 }

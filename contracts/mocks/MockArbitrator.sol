@@ -17,7 +17,7 @@ contract MockArbitrator is IMockArbitrator, Ownable {
         bool evidencePeriodClosed;
     }
 
-    uint256 internal FEE_AMOUNT = 1e18;
+    uint256 internal FEE_AMOUNT = 1e18; // 1 token (if decimals = 18)
     IERC20 internal immutable feeToken;
     Dispute[] internal disputes;
 
@@ -58,7 +58,7 @@ contract MockArbitrator is IMockArbitrator, Ownable {
     }
 
     function closeEvidencePeriod(uint256 _disputeId)
-        external override onlySubjectOf(_disputeId)
+        external override disputeExists(_disputeId) onlySubjectOf(_disputeId)
     {
         require(!disputes[_disputeId].evidencePeriodClosed, "DM_EVIDENCE_PERIOD_IS_CLOSED");
         disputes[_disputeId].evidencePeriodClosed = true;
@@ -82,6 +82,7 @@ contract MockArbitrator is IMockArbitrator, Ownable {
     function setRuling(uint256 _disputeId, uint256 _ruling)
         external override disputeExists(_disputeId) onlyOwner
     {
+        require(disputes[_disputeId].ruling == 0, "MockArbitrator: existing ruling");
         require(2 <= _ruling && _ruling <= 4, "MockArbitrator: invalid ruling");
         disputes[_disputeId].ruling = _ruling + 3;
     }
