@@ -1,7 +1,7 @@
 {
   "name": "celeste-helpers",
   "description": "1Hive Celeste helper contracts and utilties to facilitate the development of dApps integrating with Celeste",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "main": "helpers/index.js",
   "files": [
     "helpers/**",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@openzeppelin/test-environment": "^0.1.9",
-    "@openzeppelin/test-helpers": "github:MrClottom/openzeppelin-test-helpers",
+    "@openzeppelin/test-helpers": "github:Philogy/openzeppelin-test-helpers",
     "@truffle/hdwallet-provider": "^1.4.0",
     "chai": "^4.3.4",
     "dotenv": "^10.0.0",
