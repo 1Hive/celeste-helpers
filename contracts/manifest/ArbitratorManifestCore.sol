@@ -5,7 +5,7 @@ import "../interfaces/IArbitratorManifest.sol";
 
 abstract contract ArbitratorManifestCore is IArbitratorManifest {
     mapping(address => mapping(address => bool)) public override isRepOf;
-    mapping(address => mapping(address => bool)) public override recusedFor;
+    mapping(address => mapping(address => bool)) public override canRepresent;
     mapping(uint256 => address) public override defendantOf;
     mapping(uint256 => address) public override challengerOf;
 
@@ -26,12 +26,12 @@ abstract contract ArbitratorManifestCore is IArbitratorManifest {
         _setRepStatus(msg.sender, _rep, _isActive);
     }
 
-    function setRecused(address _client, bool _recuseSelf) external override {
-        if (_recuseSelf) {
+    function allowRepresentation(address _client, bool _allow) external override {
+        if (!_allow) {
             _setRepStatus(_client, msg.sender, false);
         }
-        recusedFor[msg.sender][_client] = _recuseSelf;
-        emit RecusalSet(msg.sender, _client, _recuseSelf);
+        canRepresent[msg.sender][_client] = _allow;
+        emit AllowRepresentation(msg.sender, _client, _allow);
     }
 
     function canSubmitEvidenceFor(address _submitter, uint256 _disputeId)
@@ -43,7 +43,9 @@ abstract contract ArbitratorManifestCore is IArbitratorManifest {
         }
         address challenger = challengerOf[_disputeId];
         if (isRepOf[defendant][_submitter]) {
-            require(!isRepOf[challenger][_submitter], "ArbitratorManifest: rep conflict");
+            if (isRepOf[challenger][_submitter]) {
+                return (false, address(0));
+            }
             return (true, defendant);
         }
         if (challenger == _submitter || isRepOf[challenger][_submitter]) {
@@ -53,9 +55,9 @@ abstract contract ArbitratorManifestCore is IArbitratorManifest {
     }
 
     function _setRepStatus(address _client, address _rep, bool _isActive) internal {
-        require(!_isActive || !recusedFor[_rep][_client], "ArbitratorManifest: rep recused");
-        isRepOf[msg.sender][_rep] = _isActive;
-        emit RepStateSet(msg.sender, _rep, _isActive);
+        require(!_isActive || canRepresent[_rep][_client], "ArbitratorManifest: cannot rep");
+        isRepOf[_client][_rep] = _isActive;
+        emit RepStateSet(_client, _rep, _isActive);
     }
 
     function _getSubjectOf(uint256 _disputeId)

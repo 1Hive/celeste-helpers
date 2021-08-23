@@ -8,23 +8,23 @@ interface IArbitratorManifest {
         address indexed challenger
     );
     event RepStateSet(
-        address indexed account,
+        address indexed client,
         address indexed rep,
         bool isActive
     );
-    event RecusalSet(
+    event AllowRepresentation(
         address indexed rep,
         address indexed client,
-        bool recused
+        bool allowed
     );
 
     function setPartiesOf(uint256 _disputeId, address _defendant, address _challenger) external;
     function setRepStatus(address _rep, bool _isActive) external;
-    function setRecused(address _client, bool _recuseSelf) external;
+    function allowRepresentation(address _client, bool _allow) external;
     function isRepOf(address _account, address _rep) external view returns (bool isRep);
     function defendantOf(uint256 _disputeId) external view returns (address defendant);
     function challengerOf(uint256 _disputeId) external view returns (address challenger);
-    function recusedFor(address _rep, address _client) external view returns (bool isRecused);
+    function canRepresent(address _rep, address _client) external view returns (bool allowed);
     function canSubmitEvidenceFor(address _submitter, uint256 _disputeId)
         external view returns (bool canSubmit, address submittingFor);
 }
