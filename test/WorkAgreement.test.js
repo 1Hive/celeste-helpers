@@ -62,12 +62,6 @@ describe('WorkAgreement', () => {
         'WorkAgreement: not yet unlocked'
       )
     })
-    it('cannot release payment if not contractor', async () => {
-      await expectRevert(
-        this.agreement.releasePayment({ from: attacker }),
-        'WorkAgreement: not contractor'
-      )
-    })
     it('disallows disputing release after release time has passed', async () => {
       await time.increaseTo(this.releaseTime)
       await expectRevert(
