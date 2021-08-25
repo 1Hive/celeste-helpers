@@ -3,7 +3,7 @@
     "jurorRegistry": "0x8C9968a2b16bc1cD0eaD74F5eeF25E899e795501",
     "court": "0x44E4fCFed14E1285c9e0F6eae77D5fDd0F196f85",
     "agreement": "0x59A15718992A42082aB2306bc6Cbd662958a178c",
-    "disputeManager": "0xec7904e20b69f60966d6c6b9dc534355614dd922",
-    "manifest": null
+    "disputeManager": "0xeC7904e20b69F60966D6c6b9DC534355614dd922",
+    "manifest": "0xD48A2641De3473CE23Cf670fc72B37755E06BD45"
   }
 }

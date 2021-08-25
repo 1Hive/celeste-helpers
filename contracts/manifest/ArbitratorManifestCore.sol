@@ -56,7 +56,7 @@ abstract contract ArbitratorManifestCore is IArbitratorManifest {
     }
 
     /**
-      @dev will also return `false` if `msg.sender` is a representative of both
+      @dev will also return `false` if `_submitter` is a representative of both
       the defendant and challenger
     */
     function canSubmitEvidenceFor(address _submitter, uint256 _disputeId)
