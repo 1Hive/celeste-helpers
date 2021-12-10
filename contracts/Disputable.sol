@@ -59,7 +59,7 @@ abstract contract Disputable {
     )
         internal virtual returns (uint256)
     {
-        uint256 disputeId = arbitrator.createDispute(2, _metadata);
+        uint256 disputeId = arbitrator.createDispute(2, _metadata); // This call pulls the dispute fees from this contract
         arbitratorManifest.setPartiesOf(disputeId, _defendant, _challenger);
         return disputeId;
     }

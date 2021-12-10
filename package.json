@@ -1,5 +1,5 @@
 {
-  "name": "celeste-helpers",
+  "name": "@1hive/celeste-helpers",
   "description": "1Hive Celeste helper contracts and utilties to facilitate the development of dApps integrating with Celeste",
   "version": "0.2.0",
   "main": "helpers/index.js",
