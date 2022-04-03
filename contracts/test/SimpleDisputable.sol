@@ -4,9 +4,9 @@ pragma solidity ^0.8.4;
 import "../Disputable.sol";
 
 contract SimpleDisputable is Disputable {
-    constructor(address _arbitrator, address _arbitratorManifest)
-        Disputable(_arbitrator, _arbitratorManifest)
-    { }
+    constructor(address _arbitrator, address _arbitratorManifest) { 
+        Disputable.initialize(_arbitrator, _arbitratorManifest);
+    }
 
     function createDispute(bytes memory _metadata) external {
         _prepareAndPullDisputeFeeFrom(msg.sender);

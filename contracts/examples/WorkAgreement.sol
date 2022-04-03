@@ -19,8 +19,10 @@ contract WorkAgreement is Disputable {
         uint256 _releaseAt,
         address _contractor
     )
-        Disputable(_arbitrator, _arbitratorManifest) payable
+        payable
     {
+        Disputable.initialize(_arbitrator, _arbitratorManifest);
+
         agreementCommitment = _agreementCommitment;
         releaseAt = _releaseAt;
         employer = msg.sender;

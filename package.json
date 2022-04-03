@@ -32,6 +32,7 @@
   "homepage": "https://github.com/1Hive/celeste-helpers#README.md",
   "dependencies": {
     "@openzeppelin/contracts": "^4.1.0",
+    "@openzeppelin/contracts-upgradeable": "^4.5.2",
     "bn.js": "^5.2.0"
   },
   "devDependencies": {
